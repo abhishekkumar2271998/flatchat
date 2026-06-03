@@ -6,6 +6,9 @@ from unittest.mock import patch
 
 from src.config import Config
 
+class dummy_repo:
+    """Namespace for test file paths."""
+    pass
 
 class ConfigStoragePathTests(unittest.TestCase):
     def test_set_storage_path_handles_permission_errors(self):
