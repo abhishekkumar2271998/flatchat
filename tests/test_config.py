@@ -47,7 +47,13 @@ class ConfigLanguageTests(unittest.TestCase):
             self.assertEqual(config.get_language(), "auto")
             self.assertEqual(config.get_language_name("auto"), "Auto (detect)")
 
-
+def test_set_language_rejects_unsupported_code(self):
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        config = Config(config_path=Path(tmp_dir) / "config.json")
+        success = config.set_language("xx")
+        assert not success
+        assert config.get_language() != "xx"
+        
 class ConfigWhisperModelTests(unittest.TestCase):
     def test_default_whisper_model_is_small(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
