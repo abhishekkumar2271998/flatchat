@@ -4,6 +4,11 @@ from unittest.mock import Mock
 
 from src.transcriber import WhisperTranscriber
 
+class mock_segment:
+    def __init__(self, t0, t1, text):
+        self.t0 = t0
+        self.t1 = t1
+        self.text = text
 
 class WhisperTranscriberAutoLanguageTests(unittest.TestCase):
     def _build_transcriber(self, model: Mock) -> WhisperTranscriber:
