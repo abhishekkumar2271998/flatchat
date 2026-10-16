@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign up · flatchat</title>
+    <style>
+      :root {
+        --text: #6b6375;
+        --text-h: #08060d;
+        --bg: #f7f6f9;
+        --surface: #fff;
+        --border: #e5e4e7;
+        --accent: #aa3bff;
+        --accent-hover: #9526ef;
+        --accent-ring: rgba(170, 59, 255, 0.25);
+        --error: #d92d20;
+        --success: #067647;
+        --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px,
+          rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+        color-scheme: light dark;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --text: #9ca3af;
+          --text-h: #f3f4f6;
+          --bg: #16171d;
+          --surface: #1f2028;
+          --border: #2e303a;
+          --accent: #c084fc;
+          --accent-hover: #d0a2fd;
+          --accent-ring: rgba(192, 132, 252, 0.3);
+          --error: #f97066;
+          --success: #47cd89;
+          --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px,
+            rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+        }
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 24px 16px;
+        font: 16px/1.45 system-ui, 'Segoe UI', Roboto, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 400px;
+        padding: 40px 32px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .brand {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 20px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0 0 4px;
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--text-h);
+      }
+
+      .subtitle {
+        margin: 0 0 28px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 18px;
+      }
+
+      label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-h);
+      }
+
+      input[type='email'],
+      input[type='password'],
+      input[type='text'] {
+        width: 100%;
+        padding: 10px 12px;
+        font: inherit;
+        color: var(--text-h);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+
+      input:focus-visible {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-ring);
+      }
+
+      input[aria-invalid='true'] {
+        border-color: var(--error);
+      }
+
+      .password-wrap {
+        position: relative;
+      }
+
+      .password-wrap input {
+        padding-right: 64px;
+      }
+
+      .toggle {
+        position: absolute;
+        top: 50%;
+        right: 6px;
+        transform: translateY(-50%);
+        padding: 4px 8px;
+        font: inherit;
+        font-size: 13px;
+        color: var(--text);
+        background: none;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .toggle:hover {
+        color: var(--text-h);
+      }
+
+      .hint {
+        font-size: 13px;
+      }
+
+      .error {
+        font-size: 13px;
+        color: var(--error);
+      }
+
+      .error:empty {
+        display: none;
+      }
+
+      .checkbox {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-weight: 400;
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .checkbox input {
+        margin-top: 4px;
+        accent-color: var(--accent);
+      }
+
+      .terms {
+        margin-bottom: 24px;
+      }
+
+      .submit {
+        width: 100%;
+        padding: 11px 16px;
+        font: inherit;
+        font-weight: 600;
+        color: #fff;
+        background: var(--accent);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+
+      .submit:hover:not(:disabled) {
+        background: var(--accent-hover);
+      }
+
+      .submit:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px var(--accent-ring);
+      }
+
+      .submit:disabled {
+        opacity: 0.7;
+        cursor: progress;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .checkbox a {
+        font-size: inherit;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .status {
+        margin: 0 0 18px;
+        font-size: 14px;
+      }
+
+      .status:empty {
+        display: none;
+      }
+
+      .status.is-error {
+        color: var(--error);
+      }
+
+      .status.is-success {
+        color: var(--success);
+      }
+
+      .footer {
+        margin: 24px 0 0;
+        text-align: center;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="brand" aria-hidden="true">fc</div>
+      <h1>Create your flatchat account</h1>
+      <p class="subtitle">It only takes a minute.</p>
+
+      <form id="signup-form" novalidate>
+        <p id="form-status" class="status" role="status" aria-live="polite"></p>
+
+        <div class="field">
+          <label for="name">Full name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            aria-describedby="name-error"
+            autofocus
+          />
+          <span id="name-error" class="error"></span>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            aria-describedby="email-error"
+          />
+          <span id="email-error" class="error"></span>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              aria-describedby="password-hint password-error"
+            />
+            <button
+              type="button"
+              class="toggle"
+              data-target="password"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+              Show
+            </button>
+          </div>
+          <span id="password-hint" class="hint">At least 8 characters, with a letter and a number.</span>
+          <span id="password-error" class="error"></span>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <div class="password-wrap">
+            <input
+              id="confirm"
+              name="confirm"
+              type="password"
+              autocomplete="new-password"
+              aria-describedby="confirm-error"
+            />
+            <button
+              type="button"
+              class="toggle"
+              data-target="confirm"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+              Show
+            </button>
+          </div>
+          <span id="confirm-error" class="error"></span>
+        </div>
+
+        <div class="field terms">
+          <label class="checkbox">
+            <input id="terms" name="terms" type="checkbox" aria-describedby="terms-error" />
+            <span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</span>
+          </label>
+          <span id="terms-error" class="error"></span>
+        </div>
+
+        <button type="submit" class="submit">Create account</button>
+      </form>
+
+      <p class="footer">Already have an account? <a href="signin.html">Sign in</a></p>
+    </main>
+
+    <script>
+      const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+      const form = document.getElementById('signup-form')
+      const name = document.getElementById('name')
+      const email = document.getElementById('email')
+      const password = document.getElementById('password')
+      const confirm = document.getElementById('confirm')
+      const terms = document.getElementById('terms')
+      const status = document.getElementById('form-status')
+      const submit = form.querySelector('.submit')
+
+      // Placeholder until a real auth backend exists. Replace the body with a
+      // call to your API; throw an Error to show its message in the form.
+      async function signUp({ name, email, password }) {
+        await new Promise((resolve) => setTimeout(resolve, 600))
+        console.info('signUp stub called for', email)
+      }
+
+      function setFieldError(input, message) {
+        document.getElementById(input.id + '-error').textContent = message
+        input.setAttribute('aria-invalid', message ? 'true' : 'false')
+      }
+
+      function setStatus(message, kind) {
+        status.textContent = message
+        status.className = 'status' + (kind ? ' is-' + kind : '')
+      }
+
+      function passwordError(value) {
+        if (!value) return 'Enter a password.'
+        if (value.length < 8) return 'Use at least 8 characters.'
+        if (!/[A-Za-z]/.test(value) || !/\d/.test(value))
+          return 'Include at least one letter and one number.'
+        return ''
+      }
+
+      function validate() {
+        const emailValue = email.value.trim()
+        const errors = [
+          [name, name.value.trim() ? '' : 'Enter your name.'],
+          [
+            email,
+            !emailValue
+              ? 'Enter your email address.'
+              : EMAIL_PATTERN.test(emailValue)
+                ? ''
+                : 'Enter a valid email address.',
+          ],
+          [password, passwordError(password.value)],
+          [
+            confirm,
+            !confirm.value
+              ? 'Confirm your password.'
+              : confirm.value === password.value
+                ? ''
+                : 'Passwords do not match.',
+          ],
+          [terms, terms.checked ? '' : 'You must agree to continue.'],
+        ]
+
+        errors.forEach(([input, message]) => setFieldError(input, message))
+        const firstInvalid = errors.find(([, message]) => message)
+        if (firstInvalid) firstInvalid[0].focus()
+        return !firstInvalid
+      }
+
+      document.querySelectorAll('.toggle').forEach((toggle) => {
+        const input = document.getElementById(toggle.dataset.target)
+        toggle.addEventListener('click', () => {
+          const show = input.type === 'password'
+          input.type = show ? 'text' : 'password'
+          toggle.textContent = show ? 'Hide' : 'Show'
+          toggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password')
+          toggle.setAttribute('aria-pressed', String(show))
+        })
+      })
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        setStatus('')
+        if (!validate()) return
+
+        submit.disabled = true
+        submit.textContent = 'Creating account…'
+        try {
+          await signUp({
+            name: name.value.trim(),
+            email: email.value.trim(),
+            password: password.value,
+          })
+          setStatus('Account created for ' + email.value.trim() + '.', 'success')
+          form.reset()
+        } catch (err) {
+          setStatus(err instanceof Error ? err.message : 'Sign up failed.', 'error')
+        } finally {
+          submit.disabled = false
+          submit.textContent = 'Create account'
+        }
+      })
+    </script>
+  </body>
+</html>
